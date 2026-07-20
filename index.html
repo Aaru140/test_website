@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>初期、一回目初めての - website作成てすと</title>
+    <style>
+        /* --- 基本設定 --- */
+        :root {
+            --bg-color: #000000;
+            --card-bg: #111111;
+            --text-main: #ffffff;
+            --text-sub: #aaaaaa;
+            --accent: #ffffff;
+            --border: #333333;
+            --btn-bg: #222222;
+            --btn-hover: #333333;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+        }
+
+        a { text-decoration: none; color: inherit; }
+        ul { list-style: none; padding: 0; margin: 0; }
+
+        /* --- ヘッダー --- */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 40px;
+            background-color: var(--bg-color);
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo { font-weight: bold; font-size: 1.2rem; }
+        
+        .nav-links { display: flex; gap: 20px; align-items: center; }
+        .nav-links a { font-size: 0.9rem; color: var(--text-sub); transition: 0.3s; }
+        .nav-links a:hover { color: var(--text-main); }
+        
+        .btn-login {
+            background: var(--btn-bg);
+            color: var(--text-main);
+            padding: 8px 16px;
+            border-radius: 4px;
+            border: 1px solid var(--border);
+            font-size: 0.9rem;
+        }
+        .btn-login:hover { background: var(--btn-hover); }
+
+        /* --- ヒーローセクション --- */
+        .hero {
+            text-align: center;
+            padding: 60px 20px;
+            background: radial-gradient(circle at 80% 30%, #1a1a1a 0%, #000000 60%);
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .hero p {
+            color: var(--text-sub);
+            margin-bottom: 25px;
+            font-size: 1rem;
+        }
+
+        .hero-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .pill-btn {
+            background: var(--btn-bg);
+            border: 1px solid var(--border);
+            color: var(--text-main);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .pill-btn:hover { background: var(--btn-hover); }
+
+        .hero-img {
+            margin-top: 30px;
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            overflow: hidden;
+            display: inline-block;
+            box-shadow: 0 0 20px rgba(255, 102, 0, 0.3);
+            background: #111; /* 画像の代わりに背景色を指定できます */
+        }
+
+        .hero-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        /* --- カテゴリセクション --- */
+        .section-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .section-title {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+        .section-desc {
+            color: var(--text-sub);
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+        }
+
+        .game-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
+            gap: 15px;
+            margin-bottom: 40px;
+        }
+
+        .game-icon {
+            width: 60px;
+            height: 60px;
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: 0.2s;
+            font-size: 0.8rem;
+            font-weight: bold;
+            color: #555;
+        }
+
+        .game-icon:hover, .game-icon.active {
+            border-color: var(--text-main);
+            color: var(--text-main);
+            background: #222;
+            transform: translateY(-2px);
+        }
+
+        /* --- フィルターセクション --- */
+        .filter-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px;
+        }
+
+        .filter-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+        .status-dot {
+            width: 10px;
+            height: 10px;
+            background: #00ff00;
+            border-radius: 50%;
+            box-shadow: 0 0 5px #00ff00;
+        }
+
+        .filter-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .filter-label {
+            font-size: 0.85rem;
+            color: var(--text-sub);
+        }
+
+        .input-row {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .filter-input {
+            background: #000;
+            border: 1px solid var(--border);
+            color: var(--text-main);
+            padding: 8px;
+            border-radius: 4px;
+            width: 100%;
+        }
+
+        .search-btn {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 20px;
+            width: 100%;
+            font-weight: bold;
+        }
+        .search-btn:hover { background: #0056b3; }
+
+        /* --- 結果表示 --- */
+        .result-panel {
+            margin-top: 24px;
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px;
+        }
+
+        .result-header {
+            margin-bottom: 16px;
+        }
+
+        .result-header h3 {
+            margin: 0 0 6px;
+            font-size: 1rem;
+        }
+
+        .result-header p {
+            margin: 0;
+            color: var(--text-sub);
+            font-size: 0.9rem;
+        }
+
+        .result-list {
+            display: grid;
+            gap: 12px;
+        }
+
+        .result-item {
+            padding: 14px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            background: #161616;
+        }
+
+        .result-item strong {
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .result-item span {
+            color: var(--text-sub);
+            font-size: 0.9rem;
+        }
+
+        /* --- フッター --- */
+        footer {
+            text-align: center;
+            padding: 40px;
+            color: var(--text-sub);
+            font-size: 0.8rem;
+            border-top: 1px solid var(--border);
+            margin-top: 40px;
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- ヘッダー -->
+    <header>
+        <div class="logo">Test</div>
+        <nav class="nav-links">
+            <a href="#">サポート</a>
+            <a href="#" class="btn-login">マイページ</a>
+        </nav>
+    </header>
+
+    <!-- ヒーローセクション -->
+    <section class="hero">
+        <h1>AIで一回目のサイト作成</h1>
+        <p>AIを使って簡単にサイト作成。</p>
+        
+        <div class="hero-buttons">
+            <button class="pill-btn">どんな人でも</button>
+            <button class="pill-btn">簡単操作</button>
+            <button class="pill-btn">扱い方サポート</button>
+        </div>
+
+        <!-- 画像を入れる場合は <img> を追加します -->
+        <div class="hero-img">
+            <img src="hero-icon.png" alt="Hero icon">
+        </div>
+    </section>
+
+    <!-- カテゴリセクション -->
+    <div class="section-container">
+        <div class="section-title">カテゴリー</div>
+        <div class="section-desc">アイコンをクリックして対象カテゴリーを選択できます</div>
+
+        <div class="game-grid" id="gameGrid">
+            <!-- ゲームアイコンのダミー -->
+            <!-- 実際は画像を入れるところ -->
+            <div class="game-icon active" data-category="A" onclick="selectGame(this)">A</div>
+            <div class="game-icon" data-category="B" onclick="selectGame(this)">B</div>
+            <div class="game-icon" data-category="C" onclick="selectGame(this)">C</div>
+            <div class="game-icon" data-category="D" onclick="selectGame(this)">D</div>
+        </div>
+
+        <!-- フィルターセクション -->
+        <div class="filter-card">
+            <div class="filter-header">
+                <div class="status-dot"></div>
+                基本条件
+            </div>
+            
+            <div class="filter-grid">
+                <!-- 価格帯 -->
+                <div class="filter-group">
+                    <span class="filter-label">価格帯 (¥)</span>
+                    <div class="input-row">
+                        <input type="number" class="filter-input" placeholder="最小">
+                        <span>-</span>
+                        <input type="number" class="filter-input" placeholder="最大">
+                    </div>
+                </div>
+
+                <!-- インベントリ数 -->
+                <div class="filter-group">
+                    <span class="filter-label">インベントリ数 (件)</span>
+                    <div class="input-row">
+                        <input type="number" class="filter-input" placeholder="最小">
+                        <span>-</span>
+                        <input type="number" class="filter-input" placeholder="最大">
+                    </div>
+                </div>
+
+                <!-- 未アクティブ期間 -->
+                <div class="filter-group">
+                    <span class="filter-label">non (non)</span>
+                    <select class="filter-input">
+                        <option>1ヶ月以内</option>
+                        <option>3ヶ月以内</option>
+                        <option>1年以内</option>
+                        <option>制限なし</option>
+                    </select>
+                </div>
+
+                <!-- メール種類 -->
+                <div class="filter-group">
+                    <span class="filter-label">メール種類</span>
+                    <select class="filter-input">
+                        <option>指定なし</option>
+                        <option>gmail</option>
+                        <option>yahoo</option>
+                        <option>outlook</option>
+                    </select>
+                </div>
+            </div>
+
+            <button class="search-btn">検索する</button>
+        </div>
+    </div>
+
+    <div class="result-panel">
+        <div class="result-header">
+            <h3 id="resultTitle">Aカテゴリーの候補</h3>
+            <p id="resultDesc">Aに関連する内容を表示します。</p>
+        </div>
+        <div class="result-list" id="resultList"></div>
+    </div>
+
+    <footer>
+        &copy; 2024 test. All rights reserved.
+    </footer>
+
+    <script>
+        const categoryData = {
+            A: [
+                { title: 'A-1', desc: 'Aカテゴリーのおすすめアイテムです。' },
+                { title: 'A-2', desc: 'Aに関連する情報をまとめました。' }
+            ],
+            B: [
+                { title: 'B-1', desc: 'Bカテゴリーのおすすめアイテムです。' },
+                { title: 'B-2', desc: 'Bに関連する情報をまとめました。' }
+            ],
+            C: [
+                { title: 'C-1', desc: 'Cカテゴリーのおすすめアイテムです。' },
+                { title: 'C-2', desc: 'Cに関連する情報をまとめました。' }
+            ],
+            D: [
+                { title: 'D-1', desc: 'Dカテゴリーのおすすめアイテムです。' },
+                { title: 'D-2', desc: 'Dに関連する情報をまとめました。' }
+            ]
+        };
+
+        function renderCategory(category) {
+            const items = categoryData[category] || categoryData.A;
+            const title = document.getElementById('resultTitle');
+            const desc = document.getElementById('resultDesc');
+            const list = document.getElementById('resultList');
+
+            title.textContent = `${category}カテゴリーの候補`;
+            desc.textContent = `${category}に関連する内容を表示します。`;
+            list.innerHTML = '';
+
+            items.forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'result-item';
+                card.innerHTML = `<strong>${item.title}</strong><span>${item.desc}</span>`;
+                list.appendChild(card);
+            });
+        }
+
+        function selectGame(element) {
+            document.querySelectorAll('.game-icon').forEach(icon => {
+                icon.classList.remove('active');
+            });
+            element.classList.add('active');
+
+            const category = element.getAttribute('data-category') || 'A';
+            renderCategory(category);
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            renderCategory('A');
+        });
+    </script>
+</body>
+</html>
